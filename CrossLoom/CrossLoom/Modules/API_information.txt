@@ -1,1 +1,6 @@
-C
+Api Steam:
+    https://developer.valvesoftware.com/wiki/Steam_Web_API#GetGlobalAchievementPercentagesForApp_.28v0001.29
+    
+Funzionalità richieste dalla nostra app: Ottenere libreria di gioco dell'utente (possibilmente con thumbnail dei singoli giochi), ore di gioco per singolo gioco e valutazione
+
+N.B.: Per le funzionalità di base servono solo queste per ora, ma probabilmente servirà altro per il modello, ma non avremo idea fino a quando non si farà la lezione di CoreML.
