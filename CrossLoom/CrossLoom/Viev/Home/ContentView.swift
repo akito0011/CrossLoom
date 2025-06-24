@@ -1,21 +1,16 @@
-//
-//  ContentView.swift
-//  CrossLoom
-//
-//  Created by Mohamed Tager on 23/06/25.
-//
-
 import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("First Commit!")
+        ZStack{
+            Color.background.ignoresSafeArea(.all)
+            VStack {
+                HStack(spacing: 10){
+                    GameCard(name: "Apex Legends", hour: 10020, urlCover: "https://is.gd/HM0Xaj")
+                    GameCard(name: "League Of Legends", hour: 100, urlCover: "https://is.gd/xADE5c")
+                }
+            }
         }
-        .padding()
     }
 }
 
