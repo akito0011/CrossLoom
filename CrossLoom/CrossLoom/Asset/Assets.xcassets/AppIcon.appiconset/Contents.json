@@ -1,6 +1,7 @@
 {
   "images" : [
     {
+      "filename" : "iOS App icon white jpeg-1024.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -12,6 +13,7 @@
           "value" : "dark"
         }
       ],
+      "filename" : "iOS App icon jpeg.jpeg",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -23,6 +25,7 @@
           "value" : "tinted"
         }
       ],
+      "filename" : "iOS App icon white jpeg.jpeg",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"

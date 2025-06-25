@@ -1,12 +1,13 @@
 import SwiftUI
 
 extension Font {
+    
     static func adlam(fontStyle: Font.TextStyle = .body, fontWeight: Weight = .regular) -> Font {
-        return Font.custom(AdlamFont(weight: fontWeight).rawValue, size: fontStyle.size)
+        return Font.system(size: fontStyle.size, weight: fontWeight, design: .default)
     }
-
+    
     static func helvetica(fontStyle: Font.TextStyle = .body, fontWeight: Weight = .regular) -> Font {
-        return Font.custom(HelveticaNeue(weight: fontWeight).rawValue, size: fontStyle.size)
+        return Font.system(size: fontStyle.size, weight: fontWeight, design: .default)
     }
 }
 
