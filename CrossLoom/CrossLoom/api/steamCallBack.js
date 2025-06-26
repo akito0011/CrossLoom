@@ -1,8 +1,8 @@
 import { OpenID } from 'openid';
 
 const relyingParty = new OpenID.RelyingParty(
-  'https://<TUO-PROGETTO>.vercel.app/api/steamCallback', // return URL
-  'https://<TUO-PROGETTO>.vercel.app',                   // realm
+  'https://cross-loom.vercel.app/api/steamCallback', // return URL
+  'https://cross-loom.vercel.app',                   // realm
   true,                                                  // stateless
   false,                                                 // strict mode
   []                                                     // extensions
