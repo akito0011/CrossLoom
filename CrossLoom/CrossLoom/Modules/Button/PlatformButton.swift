@@ -1,27 +1,25 @@
 import SwiftUI
 
 struct PlatformButton: View {
-    
+    @EnvironmentObject var steamAuth: SteamAuthManager
     @State var icon: String
     @State var text: String
     
     var body: some View {
         Button(action: {
             
-            if(text == "Steam"){
-                SteamAuthManager.shared.startSteamLogin { result in
-                    switch result {
-                    case .success(let steamID):
-                        UserDefaults.standard.set(steamID, forKey: "steamID")
-                        print("✅ Steam ID: \(steamID)")
-                        DispatchQueue.main.async {
-                            // aggiorna la lista delle piattaforme collegate
-                        }
-                    case .failure(let error):
-                        print("❌ Errore Steam login: \(error.localizedDescription)")
+            if text == "Steam" {
+                steamAuth.startSteamLogin()
+                if let steamID = steamAuth.steamID {
+                    UserDefaults.standard.set(steamID, forKey: "steamID")
+                    DispatchQueue.main.async {
+                        // aggiorna UI o logica se serve
                     }
+                } else {
+                    print("⚠️ Nessuno Steam ID disponibile ancora")
                 }
-            }//Fine controllo se sto loggando con steam
+            }
+
         }, label: {
             HStack (alignment: .center){
                 Image(icon)

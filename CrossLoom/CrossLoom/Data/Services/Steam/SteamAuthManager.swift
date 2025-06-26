@@ -2,54 +2,58 @@ import Foundation
 import AuthenticationServices
 import SwiftUI
 
-class SteamAuthManager: NSObject, ASWebAuthenticationPresentationContextProviding {
-    
-    @AppStorage("steamID") var savedSteamID: String?
-
-    static let shared = SteamAuthManager()
+class SteamAuthManager: NSObject, ObservableObject {
+    @Published var steamID: String?
 
     private var authSession: ASWebAuthenticationSession?
 
-    func startSteamLogin(completion: @escaping (Result<String, Error>) -> Void) {
-        let redirectURI = "crossloom://steam_auth"
-        let steamOpenIDURL = "https://cross-loom-bsqr.vercel.app/api/steam"
-        guard let url = URL(string: steamOpenIDURL) else {
-            completion(.failure(NSError(domain: "SteamAuth", code: 1, userInfo: [NSLocalizedDescriptionKey: "URL non valida"])))
+    func startSteamLogin() {
+        let redirectScheme = "myapp" // Deve corrispondere a quello registrato in Info.plist
+        let authURLString = "https://cross-loom.vercel.app/api/steam"
+        
+        guard let authURL = URL(string: authURLString) else {
+            print("❌ URL di autenticazione non valido.")
             return
         }
 
         authSession = ASWebAuthenticationSession(
-            url: url,
-            callbackURLScheme: "crossloom"
-        ) { callbackURL, error in
+            url: authURL,
+            callbackURLScheme: redirectScheme
+        ) { [weak self] callbackURL, error in
             if let error = error {
-                completion(.failure(error))
+                print("❌ Errore Steam login: \(error.localizedDescription)")
                 return
             }
 
             guard let callbackURL = callbackURL,
                   let components = URLComponents(url: callbackURL, resolvingAgainstBaseURL: false),
-                  let claimedID = components.queryItems?.first(where: { $0.name == "openid.claimed_id" })?.value else {
-                completion(.failure(NSError(domain: "SteamAuth", code: 2, userInfo: [NSLocalizedDescriptionKey: "ID non trovato"])))
+                  let steamID = components.queryItems?.first(where: { $0.name == "steamid" })?.value
+            else {
+                print("❌ Steam ID non trovato nel callback")
                 return
             }
 
-            let steamID = claimedID.components(separatedBy: "/").last ?? ""
-            completion(.success(steamID))
+            DispatchQueue.main.async {
+                print("✅ Steam login riuscito, SteamID: \(steamID)")
+                self?.steamID = steamID
+                // Salva se necessario
+                UserDefaults.standard.set(steamID, forKey: "steamID")
+            }
         }
 
+        // Per mostrare il login sopra la UI
         authSession?.presentationContextProvider = self
+        authSession?.prefersEphemeralWebBrowserSession = true // evita il login persistente
         authSession?.start()
     }
+}
 
+// MARK: - Per supportare la presentazione del browser su iOS
+extension SteamAuthManager: ASWebAuthenticationPresentationContextProviding {
     func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
-        // Cerca la finestra attiva della scena
-        guard let windowScene = UIApplication.shared.connectedScenes
-            .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene,
-            let window = windowScene.windows.first(where: { $0.isKeyWindow }) else {
-            return ASPresentationAnchor()
-        }
-
-        return window
+        return UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap { $0.windows }
+            .first { $0.isKeyWindow } ?? ASPresentationAnchor()
     }
 }
