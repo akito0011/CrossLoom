@@ -12,8 +12,7 @@ class SteamAuthManager: NSObject, ASWebAuthenticationPresentationContextProvidin
 
     func startSteamLogin(completion: @escaping (Result<String, Error>) -> Void) {
         let redirectURI = "crossloom://steam_auth"
-        let steamOpenIDURL = "https://cross-loom.vercel.app/api/steam"
-
+        let steamOpenIDURL = "https://cross-loom-bsqr.vercel.app/api/steam"
         guard let url = URL(string: steamOpenIDURL) else {
             completion(.failure(NSError(domain: "SteamAuth", code: 1, userInfo: [NSLocalizedDescriptionKey: "URL non valida"])))
             return
