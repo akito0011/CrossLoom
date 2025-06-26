@@ -6,6 +6,7 @@ struct Linking: View {
     
     let allPlatforms = Platform.allCases
     
+    
     var body: some View {
         ZStack{
             Color.background.ignoresSafeArea(.all)
@@ -17,7 +18,7 @@ struct Linking: View {
                 
                 
                 let unlinkedPlatforms = allPlatforms.filter { !platform.contains($0) }
-
+                
                 if unlinkedPlatforms.isEmpty {
                     Text("Hai già collegato tutte le piattaforme!")
                         .foregroundColor(.gray)
@@ -27,7 +28,7 @@ struct Linking: View {
                         PlatformButton(icon: item.displayName.lowercased(), text: item.displayName)
                     }
                 }
-                
+                AllertLinkMiss()
                 Spacer()
             }//END VSTACK
             .frame(maxWidth: .infinity)

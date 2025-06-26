@@ -1,12 +1,23 @@
 import SwiftUI
 
 struct AllertLinkMiss: View {
+    
     var body: some View {
-        ZStack{
+        ZStack {
             RoundedRectangle(cornerRadius: 15)
-                .fill(Color.background)
-                .frame(width: .infinity, height: 250)
-            VStack{
+                .fill(Color.background.opacity(0.7))
+                .background(
+                    RoundedRectangle(cornerRadius: 15)
+                        .fill(.ultraThinMaterial)
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 15)
+                        .stroke(Color.accent, lineWidth: 1)
+                )
+                .shadow(color: .shadow.opacity(0.6), radius: 4, x: 2, y: 4)
+                .frame(height: 250)
+
+            VStack {
                 Text("Feature in coming")
                     .foregroundColor(.red)
                     .font(.helvetica(fontStyle: .title, fontWeight: .bold))
@@ -16,13 +27,12 @@ struct AllertLinkMiss: View {
                     .font(.helvetica(fontStyle: .body, fontWeight: .semibold))
                     .multilineTextAlignment(.center)
                     .padding(.top, 15)
-                
+
                 Spacer()
             }
         }
-        .frame(width: .infinity, height: 250)
+        .frame(height: 250)
         .padding(.horizontal)
-        .shadow(color: .shadow.opacity(0.6), radius: 2, x: 1, y: 1)
     }
 }
 

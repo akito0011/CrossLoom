@@ -7,18 +7,21 @@ struct PlatformButton: View {
     
     var body: some View {
         Button(action: {
-            SteamAuthManager.shared.startSteamLogin { result in
-                switch result {
-                case .success(let steamID):
-                UserDefaults.standard.set(steamID, forKey: "steamID")
-                    print("✅ Steam ID: \(steamID)")
-                    DispatchQueue.main.async {
-                    // aggiorna la lista delle piattaforme collegate
+            
+            if(text == "Steam"){
+                SteamAuthManager.shared.startSteamLogin { result in
+                    switch result {
+                    case .success(let steamID):
+                        UserDefaults.standard.set(steamID, forKey: "steamID")
+                        print("✅ Steam ID: \(steamID)")
+                        DispatchQueue.main.async {
+                            // aggiorna la lista delle piattaforme collegate
+                        }
+                    case .failure(let error):
+                        print("❌ Errore Steam login: \(error.localizedDescription)")
+                    }
                 }
-                case .failure(let error):
-                    print("❌ Errore Steam login: \(error.localizedDescription)")
-                }
-            }
+            }//Fine controllo se sto loggando con steam
         }, label: {
             HStack (alignment: .center){
                 Image(icon)

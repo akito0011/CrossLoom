@@ -2,55 +2,43 @@ import SwiftUI
 
 struct NavBar: View {
     
-    @State var username: String
-    @State var imgUrl: String
-    
-    @State var platform: [Platform]
+    @StateObject var manager = UserManager()
     
     var body: some View {
         HStack{
             
-            //Caricamento dell'immagine utente
-            
-            if imgUrl == "profile" {
-                Image("profile")
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 80, height: 80)
-                    .clipShape(Circle())
-            } else if let url = URL(string: imgUrl) {
-                AsyncImage(url: url) { phase in
-                    if let image = phase.image {
-                        image
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 80, height: 80)
-                            .clipShape(Circle())
-                    } else if phase.error != nil {
-                        // Errore nel caricamento
-                        Image("profile") // fallback
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 80, height: 80)
-                            .clipShape(Circle())
-                    } else {
-                        ProgressView() // caricamento in corso
-                    }
+            NavigationLink(destination: ProfileView()){
+                //Caricamento dell'immagine utente
+                if let uiImage = UIImage(contentsOfFile: FileManager.default
+                    .urls(for: .documentDirectory, in: .userDomainMask)[0]
+                    .appendingPathComponent(manager.user.imgURL).path) {
+                    Image(uiImage: uiImage)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 80, height: 80)
+                        .clipShape(Circle())
+                } else {
+                    Image("profile")
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 80, height: 80)
+                        .clipShape(Circle())
                 }
             }
+            .environmentObject(manager)
             //Username
             VStack(alignment: .leading, spacing: 10){
-                Text(username)
+                Text(manager.user.username)
                     .font(.adlam(fontStyle: .headline, fontWeight: .regular))
                     .foregroundColor(.text)
-                //Piattaforme collegate
-                if platform.isEmpty{
+                // Piattaforme collegate
+                if manager.user.linkedPlatforms.isEmpty {
                     Text("No Platform")
                         .font(.helvetica(fontStyle: .subheadline, fontWeight: .semibold))
                         .foregroundColor(.buttonBackground)
-                }else{
-                    HStack{
-                        ForEach(platform, id: \.self) { item in
+                } else {
+                    HStack {
+                        ForEach(manager.user.linkedPlatforms, id: \.self) { item in
                             Text(item.displayName)
                                 .font(.helvetica(fontStyle: .subheadline, fontWeight: .semibold))
                                 .foregroundColor(.buttonBackground)
@@ -63,7 +51,7 @@ struct NavBar: View {
             //Button collegamento
             Spacer()
             
-            NavigationLink(destination: Linking(platform: platform)) {
+            NavigationLink(destination: Linking(platform: manager.user.linkedPlatforms)) {
                 VStack{
                     ZStack{
                         Circle()
@@ -89,6 +77,6 @@ struct NavBar: View {
 
 #Preview {
     NavigationStack {
-        NavBar(username: "Username101", imgUrl: "profile", platform: [])
+        NavBar()
     }
 }

@@ -2,7 +2,7 @@ import SwiftUI
 
 struct Home: View {
     
-    @State private var platform: [Platform] = []
+    @StateObject var manager = UserManager()
     
     var body: some View {
         NavigationStack{
@@ -10,11 +10,10 @@ struct Home: View {
                 Color.background.ignoresSafeArea(.all)
                 VStack {
                     
-                    NavBar(username: "Mirko", imgUrl: "profile", platform: platform)
-                    
+                    NavBar()
                     
                     //Controllo se l'utente ha  collegato degli account
-                    if platform.isEmpty {
+                    if manager.user.linkedPlatforms.isEmpty {
                         // Messaggio se non ha piattaforme collegate
                         Text("Connect some platform to start!")
                             .font(.helvetica(fontStyle: .title2, fontWeight: .bold))
