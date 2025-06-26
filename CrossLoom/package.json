@@ -1,9 +1,0 @@
-{
-  "name": "steam-auth-proxy",
-  "version": "1.0.0",
-  "main": "steam.js",
-  "type": "module",
-  "dependencies": {
-    "openid": "^2.0.0"
-  }
-}

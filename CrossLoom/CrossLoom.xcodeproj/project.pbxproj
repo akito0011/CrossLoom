@@ -6,10 +6,6 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		D95BBBC92E0D3A8000DC94E0 /* package.json in Resources */ = {isa = PBXBuildFile; fileRef = D95BBBB82E0D3A8000DC94E0 /* package.json */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXContainerItemProxy section */
 		D9784F2D2E09627B0082EE16 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -28,7 +24,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		D95BBBB82E0D3A8000DC94E0 /* package.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = package.json; sourceTree = "<group>"; };
 		D9784F1F2E0962790082EE16 /* CrossLoom.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CrossLoom.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9784F2C2E09627B0082EE16 /* CrossLoomTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CrossLoomTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9784F362E09627B0082EE16 /* CrossLoomUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CrossLoomUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -97,7 +92,6 @@
 				D9784F2F2E09627B0082EE16 /* CrossLoomTests */,
 				D9784F392E09627B0082EE16 /* CrossLoomUITests */,
 				D9784F202E0962790082EE16 /* Products */,
-				D95BBBB82E0D3A8000DC94E0 /* package.json */,
 			);
 			sourceTree = "<group>";
 		};
@@ -233,7 +227,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D95BBBC92E0D3A8000DC94E0 /* package.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
