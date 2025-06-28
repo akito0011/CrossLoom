@@ -2,9 +2,9 @@ import SwiftUI
 
 struct ProfileView: View {
     
-    @StateObject var manager = UserManager()
+    @EnvironmentObject var manager: UserManager
     
-//    @EnvironmentObject var manager: UserManager
+    @EnvironmentObject var steamAuthManager: SteamAuthManager
     
     var body: some View {
         NavigationStack {
@@ -32,7 +32,7 @@ struct ProfileView: View {
                         VStack(alignment: .leading,spacing: 15){
                             Text(manager.user.username)
                                 .foregroundColor(.text)
-                                .font(.adlam(fontStyle: .title3, fontWeight: .regular))
+                                .font(.custom("ADLam Display", size: 24))
                             //Piattaforme collegate
                             if manager.user.linkedPlatforms.isEmpty{
                                 Text("No Platform")
@@ -55,9 +55,11 @@ struct ProfileView: View {
                     
                     InfoCard()
                     
-                    Text("Piattaforme:")
-                        .foregroundColor(.text)
-                        .font(.helvetica(fontStyle: .title2, fontWeight: .bold))
+                    if(!manager.user.linkedPlatforms.isEmpty){
+                        Text("Piattaforme:")
+                            .foregroundColor(.text)
+                            .font(.helvetica(fontStyle: .title2, fontWeight: .bold))
+                    }
                     
                     HStack {
                         ForEach(manager.user.linkedPlatforms, id: \.self) { item in
@@ -68,7 +70,15 @@ struct ProfileView: View {
                             Spacer()
                             
                             Button(action:{
+                                if item == .steam {
+                                    UserDefaults.standard.removeObject(forKey: "steamID")
+                                }
+                                steamAuthManager.loginSuccess = false
                                 
+                                var updatedUser = manager.user
+                                updatedUser.linkedPlatforms.removeAll { $0 == item }
+                                manager.user = updatedUser
+                                manager.save()
                             },label:{
                                 Image(systemName: "inset.filled.leadinghalf.arrow.leading.rectangle")
                                 Text("Log-Out")
@@ -76,7 +86,7 @@ struct ProfileView: View {
                             .foregroundColor(.red)
                         }
                     }
-
+                    
                     Spacer()
                 }//END VStack
                 .padding(.horizontal, 15)
@@ -88,7 +98,6 @@ struct ProfileView: View {
                             .foregroundColor(.accent)
                             .font(.helvetica(fontStyle: .headline, fontWeight: .semibold))
                     }
-                    .environmentObject(manager)
                 }
             }
         }
@@ -97,4 +106,5 @@ struct ProfileView: View {
 
 #Preview {
     ProfileView()
+        .environmentObject(UserManager())
 }

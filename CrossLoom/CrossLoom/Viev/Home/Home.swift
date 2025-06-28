@@ -2,9 +2,11 @@ import SwiftUI
 
 struct Home: View {
     
-    @StateObject var manager = UserManager()
+    @EnvironmentObject var manager: UserManager
+    @EnvironmentObject var steamAuthManager: SteamAuthManager
     
     var body: some View {
+        
         NavigationStack{
             ZStack{
                 Color.background.ignoresSafeArea(.all)
@@ -34,9 +36,21 @@ struct Home: View {
                 .frame(maxWidth: .infinity)
             }
         }//END NavigationStack
+        .onChange(of: steamAuthManager.loginSuccess) { success in
+            if success {
+                if !manager.user.linkedPlatforms.contains(.steam) {
+                    var updatedUser = manager.user
+                    updatedUser.linkedPlatforms.append(.steam)
+                    manager.user = updatedUser
+                    manager.save()
+                }
+            }
+        }
     }
 }
 
 #Preview {
     Home()
+        .environmentObject(UserManager())
+        .environmentObject(SteamAuthManager())
 }

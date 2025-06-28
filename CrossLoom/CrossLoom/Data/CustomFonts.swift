@@ -2,9 +2,9 @@ import SwiftUI
 
 extension Font {
     
-    static func adlam(fontStyle: Font.TextStyle = .body, fontWeight: Weight = .regular) -> Font {
-        return Font.system(size: fontStyle.size, weight: fontWeight, design: .default)
-    }
+//    static func adlam(fontStyle: Font.TextStyle = .body, fontWeight: Weight = .regular) -> Font {
+//        return Font.custom("ADLaMDisplay-Regular",size: fontStyle.size)
+//    }
     
     static func helvetica(fontStyle: Font.TextStyle = .body, fontWeight: Weight = .regular) -> Font {
         return Font.system(size: fontStyle.size, weight: fontWeight, design: .default)
@@ -27,16 +27,16 @@ extension Font.TextStyle {
     }
 }
 
-enum AdlamFont: String {
-    case regular = "ADLaMDisplay-Regular"
-    
-    init(weight: Font.Weight) {
-        switch weight {
-        case .regular: self = .regular
-        default: self = .regular
-        }
-    }
-}
+//enum AdlamFont: String {
+//    case regular = "ADLaMDisplay-Regular"
+//    
+//    init(weight: Font.Weight) {
+//        switch weight {
+//        case .regular: self = .regular
+//        default: self = .regular
+//        }
+//    }
+//}
 
 enum HelveticaNeue: String {
     case regular = "HelveticaNeue-Regular"

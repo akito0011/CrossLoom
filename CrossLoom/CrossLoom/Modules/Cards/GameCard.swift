@@ -9,6 +9,8 @@ struct GameCard: View {
     public var widthCard: CGFloat = 160
     public var heightCard: CGFloat = 260
     
+    @State private var colorText: Color = Color("CardText")
+    
     var body: some View {
         VStack{
             ZStack(alignment: .bottom) {
@@ -33,19 +35,22 @@ struct GameCard: View {
                             }
                             .padding(.top, 15)
                         }
+                        .onAppear{
+                            colorText = Color("Text")
+                        }
                     }
                 }
                 .frame(width: widthCard, height: heightCard)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
 
-                // MORPHIUS EFFECT RECTANGLE
+//                // MORPHIUS EFFECT RECTANGLE
                 VStack(alignment: .leading, spacing: 4) {
                     Text(name)
                         .font(.helvetica(fontStyle: .headline, fontWeight: .bold))
-                        .foregroundColor(Color.cardText)
+                        .foregroundColor(colorText)
                     Text("Hours: \(hour)")
                         .font(.helvetica(fontStyle: .subheadline, fontWeight: .regular))
-                        .foregroundColor(Color.cardText)
+                        .foregroundColor(colorText)
                 }
                 .padding()
                 .frame(width: widthCard, height: 80, alignment: .leading)
@@ -61,5 +66,5 @@ struct GameCard: View {
 }
 
 #Preview {
-    GameCard(name: "Apex Legends", hour: 10020, urlCover: "https://is.gd/HM0Xaj")
+    GameCard(name: "Apex Legends", hour: 10020, urlCover: "://is.gd/HM0Xaj")
 }

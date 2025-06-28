@@ -5,6 +5,9 @@ import SwiftUI
 
 @main
 struct CrossLoomApp: App {
+    
+    @StateObject private var userManager = UserManager()
+    
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @StateObject private var steamAuthManager = SteamAuthManager()
 
@@ -12,6 +15,7 @@ struct CrossLoomApp: App {
         WindowGroup {
             Home()
                 .environmentObject(steamAuthManager)
+                .environmentObject(userManager)
         }
     }
 }

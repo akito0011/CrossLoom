@@ -2,7 +2,7 @@ import SwiftUI
 
 struct NavBar: View {
     
-    @StateObject var manager = UserManager()
+    @EnvironmentObject var manager: UserManager
     
     var body: some View {
         HStack{
@@ -29,7 +29,7 @@ struct NavBar: View {
             //Username
             VStack(alignment: .leading, spacing: 10){
                 Text(manager.user.username)
-                    .font(.adlam(fontStyle: .headline, fontWeight: .regular))
+                    .font(.custom("ADLaM Display", size: 18))
                     .foregroundColor(.text)
                 // Piattaforme collegate
                 if manager.user.linkedPlatforms.isEmpty {
@@ -51,7 +51,7 @@ struct NavBar: View {
             //Button collegamento
             Spacer()
             
-            NavigationLink(destination: Linking(platform: manager.user.linkedPlatforms)) {
+            NavigationLink(destination: Linking()) {
                 VStack{
                     ZStack{
                         Circle()
@@ -78,5 +78,6 @@ struct NavBar: View {
 #Preview {
     NavigationStack {
         NavBar()
+            .environmentObject(UserManager())
     }
 }

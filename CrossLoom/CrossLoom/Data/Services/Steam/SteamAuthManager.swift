@@ -4,6 +4,8 @@ import SwiftUI
 
 class SteamAuthManager: NSObject, ObservableObject {
     @Published var steamID: String?
+    
+    @Published var loginSuccess: Bool = false
 
     private var authSession: ASWebAuthenticationSession?
 
@@ -38,6 +40,7 @@ class SteamAuthManager: NSObject, ObservableObject {
                 self?.steamID = steamID
                 // Salva se necessario
                 UserDefaults.standard.set(steamID, forKey: "steamID")
+                self?.loginSuccess = true
             }
         }
 

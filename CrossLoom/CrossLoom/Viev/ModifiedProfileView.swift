@@ -48,7 +48,7 @@ struct ModifiedProfileView: View {
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding()
                 
-                Button("Salva") {
+                Button("SA") {
                     manager.user.username = username
                     manager.save()
                     showAlert = true
@@ -63,6 +63,9 @@ struct ModifiedProfileView: View {
             .padding()
             .onAppear {
                 self.username = manager.user.username
+                if let image = loadImageFromDisk() {
+                    profileImage = image
+                }
             }
         }
     }
@@ -77,6 +80,11 @@ struct ModifiedProfileView: View {
     
     func getDocumentsDirectory() -> URL {
         FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+    }
+    
+    func loadImageFromDisk() -> UIImage? {
+        let url = getDocumentsDirectory().appendingPathComponent("profile.jpg")
+        return UIImage(contentsOfFile: url.path)
     }
 }
 

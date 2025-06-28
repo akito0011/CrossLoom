@@ -1,13 +1,17 @@
 import SwiftUI
 
 struct Linking: View {
-    
-    @State var platform: [Platform]
-    
+
+    @EnvironmentObject var manager: UserManager
+    @EnvironmentObject var steamAuthManager: SteamAuthManager
+
+    @Environment(\.dismiss) var dismiss
+    @State private var showSuccessAlert = false
+
     let allPlatforms = Platform.allCases
-    
-    
+
     var body: some View {
+        let platformsUnlinked = allPlatforms.filter { !manager.user.linkedPlatforms.contains($0) }
         ZStack{
             Color.background.ignoresSafeArea(.all)
             VStack(spacing: 25){
@@ -15,16 +19,13 @@ struct Linking: View {
                     .foregroundColor(.text)
                     .font(.helvetica(fontStyle: .title, fontWeight: .bold))
                     .multilineTextAlignment(.center)
-                
-                
-                let unlinkedPlatforms = allPlatforms.filter { !platform.contains($0) }
-                
-                if unlinkedPlatforms.isEmpty {
+
+                if manager.user.linkedPlatforms == allPlatforms {
                     Text("Hai già collegato tutte le piattaforme!")
                         .foregroundColor(.gray)
                         .font(.helvetica(fontStyle: .subheadline, fontWeight: .regular))
                 } else {
-                    ForEach(unlinkedPlatforms, id: \.self) { item in
+                    ForEach(platformsUnlinked, id: \.self) { item in
                         PlatformButton(icon: item.displayName.lowercased(), text: item.displayName)
                     }
                 }
@@ -33,9 +34,22 @@ struct Linking: View {
             }//END VSTACK
             .frame(maxWidth: .infinity)
         }
-    }//END BODY
+        .onChange(of: steamAuthManager.loginSuccess) { success in
+            if success {
+                showSuccessAlert = true
+            }
+        }
+        .alert("Accesso riuscito!", isPresented: $showSuccessAlert) {
+            Button("OK") {
+                dismiss()
+                
+            }
+        }
+    }
 }
 
 #Preview {
-    Linking(platform: [])
+    Linking()
+        .environmentObject(UserManager())
+        .environmentObject(SteamAuthManager())
 }
