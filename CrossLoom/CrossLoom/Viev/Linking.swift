@@ -14,25 +14,27 @@ struct Linking: View {
         let platformsUnlinked = allPlatforms.filter { !manager.user.linkedPlatforms.contains($0) }
         ZStack{
             Color.background.ignoresSafeArea(.all)
-            VStack(spacing: 25){
-                Text("Collegati alla tua piattaforma di gioco")
-                    .foregroundColor(.text)
-                    .font(.helvetica(fontStyle: .title, fontWeight: .bold))
-                    .multilineTextAlignment(.center)
+            ScrollView(.vertical){
+                VStack(spacing: 25){
+                    Text("Collegati alla tua piattaforma di gioco")
+                        .foregroundColor(.text)
+                        .font(.helvetica(fontStyle: .title, fontWeight: .bold))
+                        .multilineTextAlignment(.center)
 
-                if manager.user.linkedPlatforms == allPlatforms {
-                    Text("Hai già collegato tutte le piattaforme!")
-                        .foregroundColor(.gray)
-                        .font(.helvetica(fontStyle: .subheadline, fontWeight: .regular))
-                } else {
-                    ForEach(platformsUnlinked, id: \.self) { item in
-                        PlatformButton(icon: item.displayName.lowercased(), text: item.displayName)
+                    if manager.user.linkedPlatforms == allPlatforms {
+                        Text("Hai già collegato tutte le piattaforme!")
+                            .foregroundColor(.gray)
+                            .font(.helvetica(fontStyle: .subheadline, fontWeight: .regular))
+                    } else {
+                        ForEach(platformsUnlinked, id: \.self) { item in
+                            PlatformButton(icon: item.displayName.lowercased(), text: item.displayName)
+                        }
                     }
-                }
-                AllertLinkMiss()
-                Spacer()
-            }//END VSTACK
-            .frame(maxWidth: .infinity)
+                    AllertLinkMiss()
+                    Spacer()
+                }//END VSTACK
+                .frame(maxWidth: .infinity)
+            }
         }
         .onChange(of: steamAuthManager.loginSuccess) { success in
             if success {

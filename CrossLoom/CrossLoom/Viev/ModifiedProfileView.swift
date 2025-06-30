@@ -48,7 +48,7 @@ struct ModifiedProfileView: View {
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding()
                 
-                Button("SA") {
+                Button("SAVE") {
                     manager.user.username = username
                     manager.save()
                     showAlert = true
