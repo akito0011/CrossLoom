@@ -26,14 +26,15 @@ struct GameCard: View {
                                 Image(systemName: "x.circle")
                                     .font(.system(size: 40, weight: .semibold))
                                     .foregroundStyle(Color.red)
-                                Text("Errore nel caricamento dell'immagine!")
-                                    .font(.helvetica(fontStyle: .subheadline, fontWeight: .regular))
+                                Text("Error loading image!")
+                                    .font(.helvetica(fontStyle: .subheadline, fontWeight: .bold))
                                     .padding(5)
                                     .foregroundColor(Color.red.opacity(0.5))
                                     .multilineTextAlignment(.center)
                                 Spacer()
                             }
                             .padding(.top, 15)
+                            .frame(height: heightCard - 80)
                         }
                         .onAppear{
                             colorText = Color("Text")
