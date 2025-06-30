@@ -37,7 +37,7 @@ class UserManager: ObservableObject {
 
 enum Platform: String, CaseIterable, Identifiable, Hashable, Codable {
     case steam
-    case xbox
+//    case xbox
 //    case playstation
 //    case nintendo
 
@@ -46,7 +46,7 @@ enum Platform: String, CaseIterable, Identifiable, Hashable, Codable {
     var displayName: String {
         switch self {
         case .steam: return "Steam"
-        case .xbox: return "Xbox"
+//        case .xbox: return "Xbox"
 //        case .playstation: return "PlayStation"
 //        case .nintendo: return "Nintendo"
         }

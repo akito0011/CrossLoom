@@ -30,7 +30,7 @@ struct ModifiedProfileView: View {
                 }
                 
                 // Picker per la foto
-                PhotosPicker("Scegli immagine", selection: $selectedItem, matching: .images)
+                PhotosPicker("Choose Picture", selection: $selectedItem, matching: .images)
                     .onChange(of: selectedItem) { newItem in
                         Task {
                             if let data = try? await newItem?.loadTransferable(type: Data.self),
@@ -53,7 +53,7 @@ struct ModifiedProfileView: View {
                     manager.save()
                     showAlert = true
                 }
-                .alert("Dati salvati", isPresented: $showAlert) {
+                .alert("Data Saved", isPresented: $showAlert) {
                     Button("OK") {
                         dismiss()
                     }

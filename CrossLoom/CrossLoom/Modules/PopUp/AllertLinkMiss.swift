@@ -18,11 +18,12 @@ struct AllertLinkMiss: View {
                 .frame(height: 250)
 
             VStack {
-                Text("Feature in coming")
+                Text("New platforms incoming")
                     .foregroundColor(.red)
                     .font(.helvetica(fontStyle: .title, fontWeight: .bold))
-                    .padding(.top, 15)
-                Text("We're working to implement this feature.")
+                    .padding([.horizontal, .top], 10)
+                    .multilineTextAlignment(.center)
+                Text("We're working to implement other platforms soon.")
                     .foregroundColor(.text)
                     .font(.helvetica(fontStyle: .body, fontWeight: .semibold))
                     .multilineTextAlignment(.center)
@@ -32,7 +33,7 @@ struct AllertLinkMiss: View {
             }
         }
         .frame(height: 250)
-        .padding(.horizontal)
+        .padding(.horizontal, 10)
     }
 }
 

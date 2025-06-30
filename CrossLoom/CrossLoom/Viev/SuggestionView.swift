@@ -6,9 +6,11 @@ struct SuggestionView: View {
             Color.background.ignoresSafeArea(.all)
             ScrollView(.vertical){
                 VStack{
-                    Text("Attacati al ....")
+                    Text("Some Suggestions For You")
                         .font(.helvetica(fontStyle: .title, fontWeight: .bold))
                         .foregroundColor(.text)
+                        .padding()
+                        .multilineTextAlignment(.center)
                     Spacer()
                 }//END VStack
             }//END ScrollView

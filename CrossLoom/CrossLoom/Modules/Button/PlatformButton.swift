@@ -16,7 +16,7 @@ struct PlatformButton: View {
                         // aggiorna UI o logica se serve
                     }
                 } else {
-                    print("⚠️ Nessuno Steam ID disponibile ancora")
+                    print("⚠️ No Steam ID available yet")
                 }
             }
 
@@ -25,7 +25,7 @@ struct PlatformButton: View {
                 Image(icon)
                     .resizable()
                     .frame(width: 25, height: 25)
-                Text("Collega \(text)")
+                Text("Connect to \(text)")
                     .font(.helvetica(fontStyle: .title3, fontWeight: .bold))
                     .foregroundColor(.text)
             }

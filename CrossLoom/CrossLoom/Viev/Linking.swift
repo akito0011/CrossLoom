@@ -16,13 +16,12 @@ struct Linking: View {
             Color.background.ignoresSafeArea(.all)
             ScrollView(.vertical){
                 VStack(spacing: 25){
-                    Text("Collegati alla tua piattaforma di gioco")
+                    Text("Connect to your gaming platform")
                         .foregroundColor(.text)
                         .font(.helvetica(fontStyle: .title, fontWeight: .bold))
                         .multilineTextAlignment(.center)
-
                     if manager.user.linkedPlatforms == allPlatforms {
-                        Text("Hai già collegato tutte le piattaforme!")
+                        Text("You have already connected all platforms!")
                             .foregroundColor(.gray)
                             .font(.helvetica(fontStyle: .subheadline, fontWeight: .regular))
                     } else {
@@ -41,7 +40,7 @@ struct Linking: View {
                 showSuccessAlert = true
             }
         }
-        .alert("Accesso riuscito!", isPresented: $showSuccessAlert) {
+        .alert("Log in successfully!", isPresented: $showSuccessAlert) {
             Button("OK") {
                 dismiss()
                 
