@@ -10,10 +10,12 @@ struct CrossLoomApp: App {
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @StateObject private var steamAuthManager = SteamAuthManager()
+    @StateObject private var steamGameViewModel = SteamGameViewModel()
+
 
     var body: some Scene {
         WindowGroup {
-            Home()
+            Home(viewModel: steamGameViewModel)
                 .environmentObject(steamAuthManager)
                 .environmentObject(userManager)
         }

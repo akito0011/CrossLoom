@@ -1,70 +1,66 @@
 import SwiftUI
 
 struct GameCard: View {
-    
-    @State var name: String
-    @State var hour: Int
-    @State var urlCover: String
-    
-    public var widthCard: CGFloat = 160
-    public var heightCard: CGFloat = 260
-    
-    @State private var colorText: Color = Color("CardText")
-    
+    let name: String
+    let hour: Int
+    let urlCover: String?
+
     var body: some View {
-        VStack{
-            ZStack(alignment: .bottom) {
-                AsyncImage(url: URL(string: urlCover)) { phase in
-                    if let image = phase.image {
-                        image
-                            .resizable()
-                            .scaledToFill()
-                    } else if phase.error != nil {
-                        ZStack {
-                            Color.gray.opacity(0.3)
-                            VStack(alignment: .center, spacing: 10) {
-                                Image(systemName: "x.circle")
-                                    .font(.system(size: 40, weight: .semibold))
-                                    .foregroundStyle(Color.red)
-                                Text("Errore nel caricamento dell'immagine!")
-                                    .font(.helvetica(fontStyle: .subheadline, fontWeight: .regular))
-                                    .padding(5)
-                                    .foregroundColor(Color.red.opacity(0.5))
-                                    .multilineTextAlignment(.center)
-                                Spacer()
+        VStack(alignment: .leading, spacing: 8) {
+            GeometryReader { geo in
+                ZStack {
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(Color.gray.opacity(0.1))
+
+                    if let urlString = urlCover, let url = URL(string: urlString) {
+                        AsyncImage(url: url) { phase in
+                            switch phase {
+                            case .empty:
+                                ProgressView()
+                            case .success(let image):
+                                image
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: geo.size.width, height: geo.size.width * 0.6)
+                                    .clipped()
+                                    .cornerRadius(12)
+                            case .failure(_):
+                                errorPlaceholder
+                            @unknown default:
+                                errorPlaceholder
                             }
-                            .padding(.top, 15)
                         }
-                        .onAppear{
-                            colorText = Color("Text")
-                        }
+                    } else {
+                        errorPlaceholder
                     }
                 }
-                .frame(width: widthCard, height: heightCard)
-                .clipShape(RoundedRectangle(cornerRadius: 10))
-
-//                // MORPHIUS EFFECT RECTANGLE
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(name)
-                        .font(.helvetica(fontStyle: .headline, fontWeight: .bold))
-                        .foregroundColor(colorText)
-                    Text("Hours: \(hour)")
-                        .font(.helvetica(fontStyle: .subheadline, fontWeight: .regular))
-                        .foregroundColor(colorText)
-                }
-                .padding()
-                .frame(width: widthCard, height: 80, alignment: .leading)
-                .background(.ultraThinMaterial)
-                .clipShape(RoundedRectangle(cornerRadius: 10))
-                .padding(.bottom, 0)
             }
-            .frame(width: widthCard, height: heightCard)
-            .clipShape(RoundedRectangle(cornerRadius: 10))
-            .shadow(color: Color.shadow.opacity(0.6), radius: 4, x: 2, y: 2)
-        }
-    }//END BODY
-}
+            .aspectRatio(1.7, contentMode: .fit) // aspect ratio per avere altezza dinamica coerente
 
-#Preview {
-    GameCard(name: "Apex Legends", hour: 10020, urlCover: "://is.gd/HM0Xaj")
+            Text(name)
+                .font(.headline)
+                .lineLimit(1)
+
+            Text("Hours: \(hour)")
+                .font(.subheadline)
+                .foregroundColor(.gray)
+        }
+        .padding(8)
+        .background(Color.white)
+        .cornerRadius(12)
+        .shadow(radius: 4)
+    }
+
+    private var errorPlaceholder: some View {
+        VStack {
+            Image(systemName: "xmark.octagon.fill")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 32, height: 32)
+                .foregroundColor(.red)
+            Text("Errore immagine")
+                .font(.caption)
+                .foregroundColor(.red)
+        }
+    }
 }

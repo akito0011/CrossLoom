@@ -1,14 +1,9 @@
+import Foundation
+
 struct SteamResponse: Codable {
-    let response: GameList
+    let response: SteamGamesResponse
 }
 
-struct GameList: Codable {
-    let game_count: Int
-    let games: [GameData]
-}
-
-struct GameData: Codable {
-    let appid: Int
-    let name: String?
-    let playtime_forever: Int
+struct SteamGamesResponse: Codable {
+    let games: [SteamGame]?
 }

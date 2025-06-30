@@ -4,6 +4,10 @@ struct User: Codable {
     var username: String = "User102"
     var imgURL: String = "profile" // nome file immagine salvata nel device
     var linkedPlatforms: [Platform] = []
+    var steamId: String? {
+        UserDefaults.standard.string(forKey: "steamID")
+    }
+
 }
 
 class UserManager: ObservableObject {
