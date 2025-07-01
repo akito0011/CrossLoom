@@ -44,11 +44,11 @@ struct GameCard: View {
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(name)
-                    .font(.headline)
+                    .font(.helvetica(fontStyle: .headline, fontWeight: .bold))
                     .lineLimit(1)
                     .foregroundColor(.text)
                 Text("\(subText): \(hour)")
-                    .font(.subheadline)
+                    .font(.helvetica(fontStyle: .subheadline, fontWeight: .regular))
                     .foregroundColor(.text)
             }
             .padding()

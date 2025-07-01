@@ -96,7 +96,10 @@ class SteamGameViewModel: ObservableObject {
     }
     
     func initializeDetails(id: Int) async{
-        detailsGame = await SteamDetailedData(id: id)
+        let details = await SteamDetailedData(id: id)
+        await MainActor.run {
+                self.detailsGame = details
+            }
     }
     
     struct SteamDetailedData: Codable {
