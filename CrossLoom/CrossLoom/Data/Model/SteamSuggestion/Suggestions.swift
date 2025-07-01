@@ -23,7 +23,7 @@ struct SuggestedGame: Identifiable {
     // Funzione asincrona per fare la richiesta API
     private mutating func fetchGameDetails(gameID: Int) async {
         // Costruisci l'URL dell'API di Steam
-        let urlString = "https://api.steampowered.com/ISteamUserStats/GetGameStats/v1/?appid=\(gameID)"
+        let urlString = "https://store.steampowered.com/api/appdetails?appids=\(gameID)"
         guard let url = URL(string: urlString) else { return }
 
         do {
