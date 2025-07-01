@@ -5,6 +5,8 @@ struct Home: View {
     @EnvironmentObject var manager: UserManager
     @EnvironmentObject var steamAuthManager: SteamAuthManager
     @ObservedObject var viewModel: SteamGameViewModel
+    @State private var selectedGameID: Int?
+
 
     // colonne dinamiche per le card(in base alla larghezza dello schermo)
     let columns = [
@@ -41,15 +43,20 @@ struct Home: View {
 
                             LazyVGrid(columns: columns, spacing: 16) {
                                 ForEach(viewModel.games) { game in
-                                    GameCard(
-                                        name: game.name,
-                                        subText: "Hours",
-                                        hour: game.playtime/60,
-                                        urlCover: game.urlCover
-                                    )
-                                    .shadow(color: .shadow, radius: 6, x: 2, y: 4)
+                                    NavigationLink {
+                                        GameDetails(viewModel: viewModel, gameID: game.id)
+                                    } label: {
+                                        GameCard(
+                                            name: game.name,
+                                            subText: "Hours",
+                                            hour: game.playtime / 60,
+                                            urlCover: game.urlCover
+                                        )
+                                        .shadow(color: .shadow, radius: 6, x: 2, y: 4)
+                                    }
                                 }
                             }
+
                             // RIMOSSO `.frame(maxWidth: 80)`
                             .padding(.horizontal)
                         }
@@ -84,7 +91,7 @@ struct Home: View {
                let steamId = manager.user.steamId {
                 Task{
                     await viewModel.initializer(for: steamId)
-                    await viewModel.gameDetailInfo(for: 72850)
+                    
                 }
             }
         }

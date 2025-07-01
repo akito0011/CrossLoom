@@ -2,11 +2,22 @@ import SwiftUI
 
 struct GameDetails: View {
     var viewModel: SteamGameViewModel
-    var body: some View{
-        
+    var gameID: Int
+    
+    var body: some View {
+        VStack {
+            Text("\(viewModel.detailsGame?.name ?? "No game loaded")" ?? "No game loaded")
+        }
+        .onAppear {
+            Task {
+                await viewModel.initializeDetails(id: gameID)
+            }
+        }
     }
 }
 
+
 #Preview {
-    GameDetails(viewModel: SteamGameViewModel())
+    GameDetails(viewModel: SteamGameViewModel(), gameID: 260)
 }
+

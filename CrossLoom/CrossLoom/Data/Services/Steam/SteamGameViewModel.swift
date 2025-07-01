@@ -58,7 +58,7 @@ class SteamGameViewModel: ObservableObject {
         }.resume()
     }
     
-    func gameDetailInfo(for gameID: Int) async ->SteamGameResponseData?{
+    private func gameDetailInfo(for gameID: Int) async ->SteamGameResponseData?{
         // Costruisci l'URL dell'API di Steam
         let urlString = "https://store.steampowered.com/api/appdetails?appids=\(gameID)"
         guard let url = URL(string: urlString) else { return nil}
@@ -95,6 +95,10 @@ class SteamGameViewModel: ObservableObject {
         }
     }
     
+    func initializeDetails(id: Int) async{
+        detailsGame = await SteamDetailedData(id: id)
+    }
+    
     struct SteamDetailedData: Codable {
         var name: String
         var headerImage: String
@@ -115,6 +119,7 @@ class SteamGameViewModel: ObservableObject {
                     self.AchievementNames.append(achievement.name)
                 }
             }
+            print(self)
         }
     }
     
