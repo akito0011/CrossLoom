@@ -4,12 +4,18 @@ class SteamGameViewModel: ObservableObject {
     @Published var games: [SteamGame] = []
     @Published var suggestedGames : [SuggestedGame] = []
     @Published var detailsGame: SteamDetailedData?
+    @Published var currentDetailsGameID: Int?
+
     private var suggestionService =  SuggestionService()
+    var totalPlaytimeHours: Int {
+        games.reduce(0) { $0 + ($1.playtime ?? 0) } / 60
+    }
+
     
     func initializer(for steamId: String) async{
         fetchGames(for: steamId)
         await loadSuggestions()
-        print(suggestedGames)
+//        print(suggestedGames)
     }
 
     func loadSuggestions() async{
@@ -58,7 +64,7 @@ class SteamGameViewModel: ObservableObject {
         }.resume()
     }
     
-    private func gameDetailInfo(for gameID: Int) async ->SteamGameResponseData?{
+    func gameDetailInfo(for gameID: Int) async ->SteamGameResponseData?{
         // Costruisci l'URL dell'API di Steam
         let urlString = "https://store.steampowered.com/api/appdetails?appids=\(gameID)"
         guard let url = URL(string: urlString) else { return nil}
@@ -95,26 +101,33 @@ class SteamGameViewModel: ObservableObject {
         }
     }
     
-    func initializeDetails(id: Int) async{
-        let details = await SteamDetailedData(id: id)
-        await MainActor.run {
-                self.detailsGame = details
-            }
+    func initializeDetails(id: Int) async {
+        DispatchQueue.main.async {
+            self.detailsGame = nil
+        }
+
+        let details = await gameDetailInfo(for: id)
+        DispatchQueue.main.async {
+            self.detailsGame = SteamDetailedData(from: details)
+            self.currentDetailsGameID = id
+        }
     }
+
     
     struct SteamDetailedData: Codable {
+        
         var name: String
         var headerImage: String
         var detailedDescription: String
         var AchievementNames: [String?] = []
         var AchievementImage: [String?] = []
         
-        init(id :Int) async{
-            let details = await SteamGameViewModel().gameDetailInfo(for: id )
-            
+        init(from details: SteamGameResponseData?) {
             self.name = details?.name ?? "N/A"
             self.headerImage = details?.headerImage ?? ""
             self.detailedDescription = details?.detailedDescription ?? ""
+            self.AchievementNames = []
+            self.AchievementImage = []
             
             if let highlightedAchievements = details?.achievements?.highlighted {
                 for achievement in highlightedAchievements {
@@ -122,7 +135,6 @@ class SteamGameViewModel: ObservableObject {
                     self.AchievementNames.append(achievement.name)
                 }
             }
-            print(self)
         }
     }
     

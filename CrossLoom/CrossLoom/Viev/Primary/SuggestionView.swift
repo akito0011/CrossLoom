@@ -23,8 +23,13 @@ struct SuggestionView: View {
                     //Stampo le card dei giochi consigliati
                     LazyVGrid(columns: columns, spacing: 16){
                         ForEach(viewModel.suggestedGames) { game in
-                            card(for: game)
+                            NavigationLink {
+                                GameDetails(viewModel: viewModel, gameID: game.id)
+                            } label: {
+                                card(for: game)
+                            }
                         }
+
                     }
                 }//END VStack
             }//END ScrollView

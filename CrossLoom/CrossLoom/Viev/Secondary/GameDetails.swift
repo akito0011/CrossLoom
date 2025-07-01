@@ -4,62 +4,46 @@ struct GameDetails: View {
     var viewModel: SteamGameViewModel
     var gameID: Int
     
-    var body: some View {
-        ZStack{
-            Color.background.ignoresSafeArea(.all)
-            ScrollView(.vertical){
-                VStack(alignment: .leading) {
-                    ZStack(alignment: .top) {
-                        if let urlString = viewModel.detailsGame?.headerImage, let url = URL(string: urlString) {
-                            AsyncImage(url: url) { phase in
-                                switch phase {
-                                case .empty, .failure(_):
-                                    ZStack {
-                                        Color.gray.opacity(0.1)
-                                        ProgressView()
-                                            .progressViewStyle(CircularProgressViewStyle())
-                                    }
-                                case .success(let image):
-                                    image
-                                        .resizable()
-                                        .scaledToFit()
-                                        .padding(.top, 10)
-                                @unknown default:
-                                    ZStack {
-                                        Color.gray.opacity(0.1)
-                                        ProgressView()
-                                            .progressViewStyle(CircularProgressViewStyle())
-                                    }
-                                }
-                            }
-                        } else {
-                            ZStack {
-                                Color.gray.opacity(0.1)
-                                ProgressView()
-                                    .progressViewStyle(CircularProgressViewStyle())
-                            }
-                        }
-                    }//End ZStacks for image
-                    Text("\(viewModel.detailsGame?.name ?? "No game loaded")" ?? "No game loaded")
-                        .font(.helvetica(fontStyle: .headline, fontWeight: .bold))
-                        .lineLimit(1)
-                        .foregroundColor(.text)
+    @State private var gameDetails: SteamGameViewModel.SteamDetailedData?
+    @State private var isLoading = true
 
-                    Text("\(viewModel.detailsGame?.AchievementNames)")
-                }//END VStack
+    var body: some View {
+        ScrollView {
+            if isLoading {
+                ProgressView("Loading...")
+                    .padding()
+            } else if let details = gameDetails {
+                VStack(alignment: .leading, spacing: 16) {
+                    AsyncImage(url: URL(string: details.headerImage)) { image in
+                        image.resizable()
+                    } placeholder: {
+                        Color.gray
+                    }
+                    .frame(height: 200)
+                    .cornerRadius(12)
+
+                    Text(details.name)
+                        .font(.title)
+                        .bold()
+
+                    Text(details.detailedDescription)
+                        .font(.body)
+                }
                 .padding()
-            }//END ScrolView
-        }//END ZStacks
-        .onAppear {
-            Task {
-                await viewModel.initializeDetails(id: gameID)
+            } else {
+                Text("Failed to load game details.")
+                    .foregroundColor(.red)
             }
         }
-    }//END BODY
-}//END struct
-
-
-#Preview {
-    GameDetails(viewModel: SteamGameViewModel(), gameID: 260)
+        .onAppear {
+            Task {
+                isLoading = true
+                let details = await viewModel.gameDetailInfo(for: gameID)
+                await MainActor.run {
+                    self.gameDetails = SteamGameViewModel.SteamDetailedData(from: details)
+                    self.isLoading = false
+                }
+            }
+        }
+    }
 }
-
