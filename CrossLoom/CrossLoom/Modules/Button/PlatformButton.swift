@@ -39,5 +39,5 @@ struct PlatformButton: View {
 }
 
 #Preview {
-    PlatformButton(icon: "xbox", text: "Xbox")
+    PlatformButton(icon: "steam", text: "Steam")
 }
