@@ -23,8 +23,8 @@ struct GameCard: View {
                     case .success(let image):
                         image
                             .resizable()
-                            .scaledToFill()
-                            .frame(width: cardWidth, height: cardHeight)
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: cardWidth, height: cardHeight, alignment: .center)
                             .clipped()
                     @unknown default:
                         ZStack {
