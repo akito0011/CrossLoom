@@ -1,8 +1,11 @@
 import SwiftUI
 
 struct SuggestionButton: View {
+    
+    var viewModel: SteamGameViewModel
+    
     var body: some View {
-        NavigationLink(destination: SuggestionView()) {
+        NavigationLink(destination: SuggestionView(viewModel: viewModel)) {
             ZStack{
                 RoundedRectangle(cornerRadius: 15)
                     .fill(.buttonBackground)
@@ -24,5 +27,5 @@ struct SuggestionButton: View {
 }
 
 #Preview {
-    SuggestionButton()
+    SuggestionButton(viewModel: SteamGameViewModel())
 }

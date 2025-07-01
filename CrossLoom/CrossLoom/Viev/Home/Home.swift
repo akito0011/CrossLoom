@@ -19,9 +19,9 @@ struct Home: View {
                 
                 ScrollView(.vertical) {
                     VStack {
-                        NavBar()
+                        NavBar(viewModel: viewModel)
                             .padding(.top, 10)
-
+                        
                         if manager.user.linkedPlatforms.isEmpty {
                             Text("Connect some platform to start!")
                                 .font(.helvetica(fontStyle: .title2, fontWeight: .bold))
@@ -29,7 +29,7 @@ struct Home: View {
                                 .multilineTextAlignment(.center)
                                 .padding()
                         } else {
-                            SuggestionButton()
+                            SuggestionButton(viewModel: viewModel)
                             
                             if viewModel.games.isEmpty{
                                 Text("Set up your profile and public library")
@@ -43,6 +43,7 @@ struct Home: View {
                                 ForEach(viewModel.games) { game in
                                     GameCard(
                                         name: game.name,
+                                        subText: "Hours",
                                         hour: game.playtime/60,
                                         urlCover: game.urlCover
                                     )

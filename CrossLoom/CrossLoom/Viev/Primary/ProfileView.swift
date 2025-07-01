@@ -14,6 +14,8 @@ struct ProfileView: View {
     @State private var player: AVAudioPlayer?
     @State private var hiddenSfx: String = "quack"
     
+    var viewModel: SteamGameViewModel
+    
     var body: some View {
         NavigationStack {
             ZStack{
@@ -66,7 +68,7 @@ struct ProfileView: View {
                         }//END HStack
                         
                         
-                        InfoCard()
+                        InfoCard(viewModel: SteamGameViewModel())
                         
                         if(!manager.user.linkedPlatforms.isEmpty){
                             Text("Piattaforme:")
@@ -142,6 +144,6 @@ struct ProfileView: View {
 }//END Struct
 
 #Preview {
-    ProfileView()
+    ProfileView(viewModel: SteamGameViewModel())
         .environmentObject(UserManager())
 }
