@@ -6,6 +6,7 @@ struct SteamGame: Codable, Identifiable {
     let average_forever: Int
     let appid: Int
 
+
     private enum CodingKeys: String, CodingKey {
         case id = "appid"
         case name

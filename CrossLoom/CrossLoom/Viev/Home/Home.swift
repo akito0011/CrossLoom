@@ -84,6 +84,7 @@ struct Home: View {
                let steamId = manager.user.steamId {
                 Task{
                     await viewModel.initializer(for: steamId)
+                    await viewModel.gameDetailInfo(for: 72850)
                 }
             }
         }

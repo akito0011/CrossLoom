@@ -1,9 +1,9 @@
 import Foundation
 
-
 class SteamGameViewModel: ObservableObject {
     @Published var games: [SteamGame] = []
     @Published var suggestedGames : [SuggestedGame] = []
+    @Published var detailsGame: SteamDetailedData?
     private var suggestionService =  SuggestionService()
     
     func initializer(for steamId: String) async{
@@ -58,6 +58,27 @@ class SteamGameViewModel: ObservableObject {
         }.resume()
     }
     
+    func gameDetailInfo(for gameID: Int) async ->SteamGameResponseData?{
+        // Costruisci l'URL dell'API di Steam
+        let urlString = "https://store.steampowered.com/api/appdetails?appids=\(gameID)"
+        guard let url = URL(string: urlString) else { return nil}
+        do {
+            let (data, _) = try await URLSession.shared.data(from: url)
+            // Decodifica i dati ricevuti da Steam
+            let decoder = JSONDecoder()
+
+            if let gameDetails = try? decoder.decode([String: SteamGameResponseDetailed].self, from: data) {
+                print("------------------------------")
+                let details = gameDetails[String(gameID)]?.data
+                return details ?? nil
+            }
+            
+        } catch {
+        }
+        return nil
+    }
+    
+    
     private func getRating(game: SteamGame) -> Double{
         
         switch Int((Double(game.playtime)/60).rounded()) {
@@ -73,6 +94,62 @@ class SteamGameViewModel: ObservableObject {
             return 5.0
         }
     }
+    
+    struct SteamDetailedData: Codable {
+        var name: String
+        var headerImage: String
+        var detailedDescription: String
+        var AchievementNames: [String?] = []
+        var AchievementImage: [String?] = []
+        
+        init(id :Int) async{
+            let details = await SteamGameViewModel().gameDetailInfo(for: id )
+            
+            self.name = details?.name ?? "N/A"
+            self.headerImage = details?.headerImage ?? ""
+            self.detailedDescription = details?.detailedDescription ?? ""
+            
+            if let highlightedAchievements = details?.achievements?.highlighted {
+                for achievement in highlightedAchievements {
+                    self.AchievementImage.append(achievement.path)
+                    self.AchievementNames.append(achievement.name)
+                }
+            }
+        }
+    }
+    
+    
+    struct SteamGameResponseDetailed: Codable {
+        let success: Bool
+        let data: SteamGameResponseData
+    }
+
+    struct SteamGameResponseData: Codable {
+        let name: String
+        let headerImage: String
+        let detailedDescription: String
+        let achievements: Achievements?
+
+        enum CodingKeys: String, CodingKey {
+            case name
+            case headerImage = "header_image"
+            case detailedDescription = "detailed_description"
+            case achievements
+        }
+    }
+
+
+
+    struct Achievements: Codable {
+        let total: Int?
+        let highlighted: [Achievement]?
+    }
+
+    struct Achievement: Codable {
+        let name: String?
+        let path: String?
+    }
+    
 }
 
 
