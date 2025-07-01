@@ -6,18 +6,18 @@ class SteamGameViewModel: ObservableObject {
     @Published var suggestedGames : [SuggestedGame] = []
     private var suggestionService =  SuggestionService()
     
-    func initializer(for steamId: String){
+    func initializer(for steamId: String) async{
         fetchGames(for: steamId)
-        loadSuggestions()
+        await loadSuggestions()
         print(suggestedGames)
     }
 
-    func loadSuggestions(){
+    func loadSuggestions() async{
         var rating : [Int64: Double] = [:]
         for game in games{
             rating[Int64(game.id)] = getRating(game: game)
         }
-        suggestedGames = suggestionService.getSuggestedGames(rating: rating)
+        suggestedGames = await suggestionService.getSuggestedGames(rating: rating)
     }
     
     func fetchGames(for steamId: String) {

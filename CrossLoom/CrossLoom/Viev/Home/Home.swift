@@ -61,7 +61,9 @@ struct Home: View {
 
                 // Caricamento giochi Steam
                 if let steamId = manager.user.steamId {
-                    viewModel.initializer(for: steamId)
+                    Task{
+                        await viewModel.initializer(for: steamId)
+                    }
                 }
             }
         }
@@ -70,7 +72,9 @@ struct Home: View {
             if manager.user.linkedPlatforms.contains(.steam),
                viewModel.games.isEmpty,
                let steamId = manager.user.steamId {
-                viewModel.initializer(for: steamId)
+                Task{
+                    await viewModel.initializer(for: steamId)
+                }
             }
         }
     }
