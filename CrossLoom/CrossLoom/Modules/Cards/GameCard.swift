@@ -2,6 +2,7 @@ import SwiftUI
 
 struct GameCard: View {
     let name: String
+    let subText: String
     let hour: Int
     let urlCover: String?
     
@@ -36,7 +37,7 @@ struct GameCard: View {
                     .font(.headline)
                     .lineLimit(1)
                     .foregroundColor(.text)
-                Text("Hours: \(hour)")
+                Text("\(subText): \(hour)")
                     .font(.subheadline)
                     .foregroundColor(.text)
             }
@@ -66,6 +67,6 @@ struct GameCard: View {
 }
 
 #Preview {
-    GameCard(name: "Apex", hour: 400, urlCover: "https://is.gd/llju5T")
+    GameCard(name: "Apex", subText: "Hour", hour: 400, urlCover: "https://is.gd/llju5T")
         
 }

@@ -4,10 +4,12 @@ struct NavBar: View {
     
     @EnvironmentObject var manager: UserManager
     
+    var viewModel: SteamGameViewModel
+    
     var body: some View {
         HStack{
             
-            NavigationLink(destination: ProfileView()){
+            NavigationLink(destination: ProfileView(viewModel: viewModel)){
                 //Caricamento dell'immagine utente
                 if let uiImage = UIImage(contentsOfFile: FileManager.default
                     .urls(for: .documentDirectory, in: .userDomainMask)[0]
@@ -77,7 +79,7 @@ struct NavBar: View {
 
 #Preview {
     NavigationStack {
-        NavBar()
+        NavBar(viewModel: SteamGameViewModel())
             .environmentObject(UserManager())
     }
 }

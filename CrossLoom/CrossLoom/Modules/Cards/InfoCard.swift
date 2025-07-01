@@ -4,6 +4,8 @@ struct InfoCard: View {
     
     @EnvironmentObject var manager: UserManager
     
+    var viewModel: SteamGameViewModel
+    
     var body: some View {
         ZStack{
             RoundedRectangle(cornerRadius: 15)
@@ -19,22 +21,22 @@ struct InfoCard: View {
                     HStack(alignment: .center){
                         Text("Category most played:")
                         Spacer()
-                        Text("Free-To-Play")
+                        Text("\(viewModel.games.count)")
                     }
                     HStack(alignment: .center){
                         Text("Game most played:")
                         Spacer()
-                        Text("Apex Legends")
+                        Text("\(viewModel.games)")
                     }
                     HStack(alignment: .center){
                         Text("Totaly hours of play:")
                         Spacer()
-                        Text("10240")
+                        Text("\(viewModel.games)")
                     }
                     HStack(alignment: .center){
                         Text("Owned Games:")
                         Spacer()
-                        Text("102")
+                        Text("\(viewModel.games.count)")
                     }
                 }
                 .foregroundColor(.text)
@@ -51,6 +53,6 @@ struct InfoCard: View {
 }
 
 #Preview {
-    InfoCard()
+    InfoCard(viewModel: SteamGameViewModel())
         .environmentObject(UserManager())
 }
