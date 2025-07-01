@@ -68,7 +68,7 @@ struct ProfileView: View {
                         }//END HStack
                         
                         
-                        InfoCard(viewModel: SteamGameViewModel())
+                        InfoCard(viewModel: viewModel)
                         
                         if(!manager.user.linkedPlatforms.isEmpty){
                             Text("Piattaforme:")

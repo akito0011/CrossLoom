@@ -4,7 +4,7 @@ struct InfoCard: View {
     
     @EnvironmentObject var manager: UserManager
     
-    var viewModel: SteamGameViewModel
+    @ObservedObject var viewModel: SteamGameViewModel
     
     var body: some View {
         ZStack{
@@ -19,24 +19,22 @@ struct InfoCard: View {
             if(!manager.user.linkedPlatforms.isEmpty){
                 VStack(spacing: 10){
                     HStack(alignment: .center){
-                        Text("Category most played:")
-                        Spacer()
-                        Text("\(viewModel.games.count)")
+                        if let mostPlayedGame = viewModel.games.max(by: { $0.playtime < $1.playtime }) {
+                            Text("Most played game:")
+                            Spacer()
+                            Text("\(mostPlayedGame.name)")
+                        }
                     }
-                    HStack(alignment: .center){
-                        Text("Game most played:")
+                    HStack(alignment: .center) {
+                        Text("Total hours of play:")
                         Spacer()
-                        Text("\(viewModel.games)")
-                    }
-                    HStack(alignment: .center){
-                        Text("Totaly hours of play:")
-                        Spacer()
-                        Text("\(viewModel.games)")
+                        Text("\(viewModel.totalPlaytimeHours)")
                     }
                     HStack(alignment: .center){
                         Text("Owned Games:")
                         Spacer()
                         Text("\(viewModel.games.count)")
+                        
                     }
                 }
                 .foregroundColor(.text)
@@ -50,6 +48,7 @@ struct InfoCard: View {
         }
         .frame(maxWidth: .infinity)
     }
+
 }
 
 #Preview {

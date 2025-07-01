@@ -39,8 +39,8 @@ struct SuggestedGame: Identifiable {
             let decoder = JSONDecoder()
 
             if let gameDetails = try? decoder.decode([String: SteamGameResponse].self, from: data) {
-                print("------------------------------")
-                print(gameDetails[String(id)]?.data.name)
+//                print("------------------------------")
+//                print(gameDetails[String(id)]?.data.name)
                 return gameDetails[String(id)]?.data
             }
             
