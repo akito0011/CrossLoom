@@ -14,22 +14,32 @@ struct GameCard: View {
             if let urlString = urlCover, let url = URL(string: urlString) {
                 AsyncImage(url: url) { phase in
                     switch phase {
-                    case .empty:
-                        ProgressView()
+                    case .empty, .failure(_):
+                        ZStack {
+                            Color.gray.opacity(0.1)
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle())
+                        }
                     case .success(let image):
                         image
                             .resizable()
                             .scaledToFill()
                             .frame(width: cardWidth, height: cardHeight)
                             .clipped()
-                    case .failure(_):
-                        errorPlaceholder
                     @unknown default:
-                        errorPlaceholder
+                        ZStack {
+                            Color.gray.opacity(0.1)
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle())
+                        }
                     }
                 }
             } else {
-                errorPlaceholder
+                ZStack {
+                    Color.gray.opacity(0.1)
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle())
+                }
             }
 
             VStack(alignment: .leading, spacing: 4) {
@@ -50,19 +60,6 @@ struct GameCard: View {
         .cornerRadius(12)
         .shadow(radius: 4)
         .padding(8)
-    }
-
-    private var errorPlaceholder: some View {
-        VStack {
-            Image(systemName: "xmark.octagon.fill")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 32, height: 32)
-                .foregroundColor(.red)
-            Text("Errore immagine")
-                .font(.caption)
-                .foregroundColor(.red)
-        }
     }
 }
 
