@@ -30,6 +30,14 @@ struct Home: View {
                                 .padding()
                         } else {
                             SuggestionButton()
+                            
+                            if viewModel.games.isEmpty{
+                                Text("Set up your profile and public library")
+                                    .font(.helvetica(fontStyle: .title2, fontWeight: .bold))
+                                    .foregroundColor(.buttonBackground)
+                                    .multilineTextAlignment(.center)
+                                    .padding()
+                            }
 
                             LazyVGrid(columns: columns, spacing: 16) {
                                 ForEach(viewModel.games) { game in
