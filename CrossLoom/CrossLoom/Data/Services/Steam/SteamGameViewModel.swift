@@ -1,8 +1,25 @@
 import Foundation
 
+
 class SteamGameViewModel: ObservableObject {
     @Published var games: [SteamGame] = []
+    @Published var suggestedGames : [SuggestedGame] = []
+    private var suggestionService =  SuggestionService()
+    
+    func initializer(for steamId: String){
+        fetchGames(for: steamId)
+        loadSuggestions()
+        print(suggestedGames)
+    }
 
+    func loadSuggestions(){
+        var rating : [Int64: Double] = [:]
+        for game in games{
+            rating[Int64(game.id)] = getRating(game: game)
+        }
+        suggestedGames = suggestionService.getSuggestedGames(rating: rating)
+    }
+    
     func fetchGames(for steamId: String) {
         guard let steamId = UserDefaults.standard.string(forKey: "steamID") else {
             print("❌ SteamID non trovato nei UserDefaults")
@@ -40,4 +57,23 @@ class SteamGameViewModel: ObservableObject {
             }
         }.resume()
     }
+    
+    private func getRating(game: SteamGame) -> Double{
+        
+        switch Int((Double(game.playtime)/60).rounded()) {
+        case 1...3:
+            return 1.0
+        case 4...10:
+            return 2.0
+        case 11...25:
+            return 3.0
+        case 26...50:
+            return 4.0
+        default:
+            return 5.0
+        }
+    }
 }
+
+
+
