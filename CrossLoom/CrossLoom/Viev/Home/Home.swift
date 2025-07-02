@@ -43,7 +43,7 @@ struct Home: View {
                             }
 
                             LazyVGrid(columns: columns, spacing: 16) {
-                                ForEach(viewModel.games) { game in
+                                ForEach(viewModel.games.sorted(by: { $0.playtime > $1.playtime })) { game in
                                     NavigationLink {
                                         GameDetails(viewModel: viewModel, gameID: game.id)
                                     } label: {
