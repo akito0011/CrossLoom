@@ -12,28 +12,36 @@ struct suggestionGameCard: View {
     
     var body: some View {
         ZStack(alignment: .bottom){
+            
             if let urlString = urlCover, let url = URL(string: urlString) {
-                AsyncImage(url: url) { phase in
-                    switch phase {
-                    case .empty, .failure(_):
-                        ZStack {
-                            Color.gray.opacity(0.1)
-                            ProgressView()
-                                .progressViewStyle(CircularProgressViewStyle())
-                        }
-                    case .success(let image):
-                        image
-                            .resizable()
-                            .aspectRatio(16.0/9.0, contentMode: .fill)
-                            .frame(width: cardWidth, height: cardHeight, alignment: .center)
-                            .clipped()
-                    @unknown default:
-                        ZStack {
-                            Color.gray.opacity(0.1)
-                            ProgressView()
-                                .progressViewStyle(CircularProgressViewStyle())
+                ZStack(alignment: .topTrailing) {
+                    AsyncImage(url: url) { phase in
+                        switch phase {
+                        case .empty, .failure(_):
+                            ZStack {
+                                Color.gray.opacity(0.1)
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle())
+                            }
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .aspectRatio(16.0/9.0, contentMode: .fill)
+                                .frame(width: cardWidth, height: cardHeight, alignment: .center)
+                                .clipped()
+                        @unknown default:
+                            ZStack {
+                                Color.gray.opacity(0.1)
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle())
+                            }
                         }
                     }
+                    
+                    Image("Steam_icon")
+                        .resizable()
+                        .frame(width: 30, height: 30)
+                        .padding(8)
                 }
             } else {
                 ZStack {
@@ -42,6 +50,7 @@ struct suggestionGameCard: View {
                         .progressViewStyle(CircularProgressViewStyle())
                 }
             }
+            
             VStack(alignment: .leading, spacing: 4) {
                 Text(name)
                     .font(.helvetica(fontStyle: .headline, fontWeight: .bold))

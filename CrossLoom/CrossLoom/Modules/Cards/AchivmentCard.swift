@@ -1,17 +1,17 @@
 import SwiftUI
 
-struct GameCard: View {
-    let name: String
-    let subText: String
-    let hour: Int
-    let urlCover: String?
+struct AchivmentCard: View {
+    
+    let title: String
+    let imgUrl: String
     
     @State private var cardHeight: CGFloat = 240
     @State private var cardWidth: CGFloat = 160
-
+    
     var body: some View {
-        ZStack(alignment: .bottomTrailing) {
-            if let urlString = urlCover, let url = URL(string: urlString) {
+        ZStack(alignment: .bottom){
+            Color.background
+            if let url = URL(string: imgUrl){
                 AsyncImage(url: url) { phase in
                     switch phase {
                     case .empty, .failure(_):
@@ -23,8 +23,8 @@ struct GameCard: View {
                     case .success(let image):
                         image
                             .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: cardWidth, height: cardHeight, alignment: .center)
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: cardWidth, height: cardHeight, alignment: .top)
                             .clipped()
                     @unknown default:
                         ZStack {
@@ -41,27 +41,18 @@ struct GameCard: View {
                         .progressViewStyle(CircularProgressViewStyle())
                 }
             }
-
-            VStack(alignment: .leading, spacing: 4) {
-                Text(name)
+            
+            VStack{
+                Text("\(title)")
                     .font(.helvetica(fontStyle: .headline, fontWeight: .bold))
-                    .lineLimit(1)
-                    .foregroundColor(.text)
-                Text("\(subText): \(hour)")
-                    .font(.helvetica(fontStyle: .subheadline, fontWeight: .regular))
                     .foregroundColor(.text)
             }
             .padding()
             .frame(maxWidth: .infinity)
-            .frame(height: 60)
-            .background(.ultraThinMaterial)
+            .frame(height: cardHeight/3)
+            .background(Color.background)
             
-            Image("Steam_icon")
-                .resizable()
-                .frame(width: 30, height: 30)
-                .padding(.trailing, 10)
-                .padding(.bottom, 5)
-        }
+        }//END ZStack
         .frame(width: cardWidth, height: cardHeight)
         .cornerRadius(12)
         .shadow(radius: 4)
@@ -70,6 +61,5 @@ struct GameCard: View {
 }
 
 #Preview {
-    GameCard(name: "The Witcher: ....", subText: "Hour", hour: 400, urlCover: "https://is.gd/llju5T")
-        
+    AchivmentCard(title: "Taking Names", imgUrl: "https://is.gd/bhMor1")
 }

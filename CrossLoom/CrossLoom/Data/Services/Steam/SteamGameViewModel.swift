@@ -119,22 +119,24 @@ class SteamGameViewModel: ObservableObject {
         var name: String
         var headerImage: String
         var detailedDescription: String
-        var AchievementNames: [String?] = []
-        var AchievementImage: [String?] = []
+//        var AchievementNames: [String?] = []
+//        var AchievementImage: [String?] = []
+        var achievements: [Achievement] = []
         
         init(from details: SteamGameResponseData?) {
             self.name = details?.name ?? "N/A"
             self.headerImage = details?.headerImage ?? ""
             self.detailedDescription = details?.detailedDescription ?? ""
-            self.AchievementNames = []
-            self.AchievementImage = []
+//            self.AchievementNames = []
+//            self.AchievementImage = []
+            self.achievements = details?.achievements?.highlighted ?? []
             
-            if let highlightedAchievements = details?.achievements?.highlighted {
-                for achievement in highlightedAchievements {
-                    self.AchievementImage.append(achievement.path)
-                    self.AchievementNames.append(achievement.name)
-                }
-            }
+//            if let highlightedAchievements = details?.achievements?.highlighted {
+//                for achievement in highlightedAchievements {
+//                    self.AchievementImage.append(achievement.path)
+//                    self.AchievementNames.append(achievement.name)
+//                }
+//            }
         }
     }
     
@@ -165,7 +167,8 @@ class SteamGameViewModel: ObservableObject {
         let highlighted: [Achievement]?
     }
 
-    struct Achievement: Codable {
+    struct Achievement: Codable, Identifiable {
+        let id = UUID()
         let name: String?
         let path: String?
     }

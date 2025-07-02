@@ -25,11 +25,12 @@ struct Home: View {
                             .padding(.top, 10)
                         
                         if manager.user.linkedPlatforms.isEmpty {
-                            Text("Connect some platform to start!")
-                                .font(.helvetica(fontStyle: .title2, fontWeight: .bold))
-                                .foregroundColor(.buttonBackground)
-                                .multilineTextAlignment(.center)
+                            
+                            Image("home-tutorial")
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
                                 .padding()
+                                .shadow(color: .shadow, radius: 8, x: 0, y: 6)
                         } else {
                             SuggestionButton(viewModel: viewModel)
                             
@@ -52,12 +53,11 @@ struct Home: View {
                                             hour: game.playtime / 60,
                                             urlCover: game.urlCover
                                         )
-                                        .shadow(color: .shadow, radius: 6, x: 2, y: 4)
+                                        .shadow(color: .shadow, radius: 8, x: 0, y: 4)
                                     }
                                 }
                             }
 
-                            // RIMOSSO `.frame(maxWidth: 80)`
                             .padding(.horizontal)
                         }
 

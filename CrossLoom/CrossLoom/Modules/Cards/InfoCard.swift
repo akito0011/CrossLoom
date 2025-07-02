@@ -15,7 +15,6 @@ struct InfoCard: View {
                         .stroke(Color.accent, lineWidth: 1)
                 )
                 .shadow(color: .shadow.opacity(0.6), radius: 4, x: 2, y: 4)
-                .frame(height: 160)
             if(!manager.user.linkedPlatforms.isEmpty){
                 VStack(spacing: 10){
                     HStack(alignment: .center){
@@ -39,7 +38,7 @@ struct InfoCard: View {
                 }
                 .foregroundColor(.text)
                 .font(.helvetica(fontStyle: .headline, fontWeight: .bold))
-                .padding(.horizontal, 10)
+                .padding([.horizontal, .vertical], 10)
             }else{
                 Text("Connect your platform to see more information!")
                     .foregroundColor(.text)
