@@ -6,7 +6,7 @@ struct SuggestionView: View {
     
     // colonne dinamiche per le card(in base alla larghezza dello schermo)
     let columns = [
-        GridItem(.adaptive(minimum: 160), spacing: 10)
+        GridItem(.adaptive(minimum: 240), spacing: 10)
     ]
     
     var body: some View {
@@ -38,13 +38,13 @@ struct SuggestionView: View {
     
     @ViewBuilder
     func card(for game: SuggestedGame) -> some View {
-        GameCard(
+        suggestionGameCard(
             name: game.name,
-            subText: "Rating",
-            hour: Int(game.rating),
+            subText: "Category",
+            gender: game.genres,
             urlCover: game.thumbnail
         )
-        .shadow(color: .shadow, radius: 6, x: 2, y: 4)
+        .shadow(color: .shadow, radius: 6, x: 1, y: 2)
     }
     
 }

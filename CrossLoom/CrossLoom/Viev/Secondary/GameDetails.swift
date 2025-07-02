@@ -47,3 +47,7 @@ struct GameDetails: View {
         }
     }
 }
+
+#Preview {
+    GameDetails(viewModel: SteamGameViewModel(), gameID: 620)
+}
