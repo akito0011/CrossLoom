@@ -104,7 +104,7 @@ struct GameDetails: View {
                         //Achivment
                         
                         if !details.achievements.isEmpty{
-                            Text("Achivments of this games:")
+                            Text("Achievements of this game:")
                                 .font(.helvetica(fontStyle: .title2, fontWeight: .bold))
                                 .foregroundColor(.text)
                             LazyVGrid(columns: columns, spacing: 16){
