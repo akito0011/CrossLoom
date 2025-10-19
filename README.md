@@ -71,14 +71,3 @@ It recommends games based on a user’s past ratings (1–5) and generates `K` s
 > Dataset source: [steam-recommendation-system](https://github.com/AALAM98mod100/steam-recommendation-system) on GitHub
 
  **Model built and tested in Swift with CreateML, then exported as a CoreML model for local prediction.**
-
----
-
-## Screenshots & Mockups
- [Watch the demo on YouTube](https://youtube.com/your-demo-link)
-
-```markdown
-### 🔍 Example Screens
-
-<img src="assets/mockup1.png" width="300">
-<img src="assets/mockup2.png" width="300">
