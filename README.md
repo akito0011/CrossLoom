@@ -11,7 +11,7 @@ The app allows users to authenticate with gaming services (currently **Steam**) 
 
 ---
 
-## 🚀 Features
+## Features
 
 - 🔐 **Verified OAuth2 Authentication** via Steam  
 - 🎮 **Real-time game library access** using official Steam Web API  
@@ -22,7 +22,7 @@ The app allows users to authenticate with gaming services (currently **Steam**) 
 
 ---
 
-## 📦 Tech Stack
+## Tech Stack
 
 ### iOS App
 - **Language**: Swift  
@@ -39,10 +39,9 @@ The app allows users to authenticate with gaming services (currently **Steam**) 
 
 ---
 
-## 🔐 Authentication Flow
+## Authentication Flow
 
-1. The user logs in via Steam OAuth (handled through a Vercel-hosted serverless backend):  
-   👉 [View deployment on Vercel](https://vercel.com/akito0011s-projects/cross-loom)
+1. The user logs in via Steam OAuth (handled through a Vercel-hosted serverless backend)
 
 2. Once authenticated, their **public SteamID** is retrieved.
 
@@ -53,13 +52,13 @@ The app allows users to authenticate with gaming services (currently **Steam**) 
 
 ---
 
-## 🎯 ML Recommendation System
+## ML Recommendation System
 
 We developed a recommendation model using **CreateML** with **Collaborative Filtering** on real Steam user data.  
 The dataset was split 80/20 (train/test) and trained across **307 game classes**.  
 It recommends games based on a user’s past ratings (1–5) and generates `K` suggestions.
 
-📊 **Model Precision at K**:
+ **Model Precision at K**:
 
 | K | Precision |
 |---|-----------|
@@ -71,16 +70,12 @@ It recommends games based on a user’s past ratings (1–5) and generates `K` s
 
 > Dataset source: [steam-recommendation-system](https://github.com/AALAM98mod100/steam-recommendation-system) on GitHub
 
-🧠 **Model built and tested in Swift with CreateML, then exported as a CoreML model for local prediction.**
+ **Model built and tested in Swift with CreateML, then exported as a CoreML model for local prediction.**
 
 ---
 
-## 🧪 Screenshots & Mockups
-
-You can place mockups and screenshots in the `assets/` folder and embed them here:
-
-📺 [Watch the demo on YouTube](https://youtube.com/your-demo-link)
-
+## Screenshots & Mockups
+ [Watch the demo on YouTube](https://youtube.com/your-demo-link)
 
 ```markdown
 ### 🔍 Example Screens
